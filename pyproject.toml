@@ -5,6 +5,19 @@ description = "ETL pipeline for oil & gas production data (Prefect)"
 authors = ["You <you@example.com>"]
 license = "MIT"
 
+# ============================================
+# 🔥 This is what makes 'src' importable
+# ============================================
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Optional: include non-python files if needed
+# include = ["configs/*.yaml", "demo_data/*.csv"]
+
+# Black config (ok)
 [tool.black]
 line-length = 88
 
