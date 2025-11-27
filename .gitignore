@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+.venv/
+venv/
+.env.local
+
+# Data / outputs
+processed_csv/
+*.csv
+
+# Editor files
+.vscode/
+.idea/
+.DS_Store
+
+# Prefect
+prefect-orion.db

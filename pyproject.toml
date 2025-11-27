@@ -1,0 +1,13 @@
+[tool.poetry]
+name = "etl-production-pipeline"
+version = "0.1.0"
+description = "ETL pipeline for oil & gas production data (Prefect)"
+authors = ["You <you@example.com>"]
+license = "MIT"
+
+[tool.black]
+line-length = 88
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,12 @@
+scan_interval_seconds: 10
+archive_folder: processed_csv
+table_name: production_clean
+qc:
+  max_gap_days: 5
+  rate_limits:
+    oil_rate: [0, 30000]
+    gas_rate: [0, 5000000]
+    water_rate: [0, 30000]
+email:
+  subject: "ETL QC Report"
+  include_raw_and_clean: true
