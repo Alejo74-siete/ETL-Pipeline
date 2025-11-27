@@ -1,0 +1,16 @@
+well_id,date,oil_rate,gas_rate,water_rate
+A1,2020/01/01,100,1500,20
+A1,2020-01-02,105,1600,22
+A1,2020-01-02,105,1600,22     # duplicate key
+A1,2020-01-03,110,1700,abc    # non numeric water
+A1,2020-01-05,115,20000000,25 # unrealistic gas (should clip)
+
+B2,2020-02-01,049,900,50
+B2,2020-02-02,-60,1000,55     # negative oil
+B2,2020-02-03,70,,58          # missing gas
+B2,not_a_date,75,1200,60      # invalid date -> drop
+
+C3,2020-03-01,200,3000,75
+C3,2020-03-02, 210 , "3300",80
+C3,2020-03-04,,3400,82        # missing oil -> ffill test
+C3,2020-03-05,NaN,3500,83
