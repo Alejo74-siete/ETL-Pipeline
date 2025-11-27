@@ -1,4 +1,4 @@
-```text
+
 prefect>=2.10.0
 pandas>=2.0
 sqlalchemy>=1.4
@@ -7,4 +7,4 @@ python-dotenv>=1.0
 pytest>=7.0
 black
 flake8
-production_tools @ git+https://github.com/yourorg/production-engineering-toolkit.git
+production-engineering-toolkit @ git+https://github.com/Alejo74-siete/production-engineering-toolkit.git
