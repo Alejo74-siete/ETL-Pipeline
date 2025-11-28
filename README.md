@@ -34,7 +34,7 @@ ETL-Pipeline/
 
 ## Prerequisites
 
-- Python 3.10 or higher
+- Python 3.11 or higher
 - PostgreSQL database (e.g., Supabase)
 - Gmail account with App Password for SMTP
 
