@@ -8,13 +8,10 @@ from src.pipeline import production_etl_flow
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Run Production ETL Pipeline"
-    )
+    parser = argparse.ArgumentParser(description="Run Production ETL Pipeline")
     parser.add_argument(
         "--watch-folder",
-        help="Folder to watch for CSV files "
-        "(default: from .env or 'demo_data')",
+        help="Folder to watch for CSV files " "(default: from .env or 'demo_data')",
     )
     parser.add_argument(
         "--processed-folder",
@@ -23,8 +20,7 @@ def main():
     )
     parser.add_argument(
         "--table-name",
-        help="Database table name "
-        "(default: from .env or 'production_clean')",
+        help="Database table name " "(default: from .env or 'production_clean')",
     )
 
     args = parser.parse_args()
