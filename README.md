@@ -131,7 +131,7 @@ python run_pipeline.py --watch-folder my_data --processed-folder my_processed
 ## Quick Commands
 ```bash
 # First time only
-python setup.py
+python set_prefect.py
 
 # Start worker (keep running)
 python worker.py
