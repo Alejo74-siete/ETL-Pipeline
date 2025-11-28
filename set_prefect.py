@@ -4,7 +4,6 @@ One-time setup for Prefect.
 Run this once to configure everything.
 """
 import subprocess
-import sys
 
 
 def run_command(cmd, description):
