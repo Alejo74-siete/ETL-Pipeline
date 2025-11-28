@@ -27,7 +27,8 @@ jobs:
         SUPABASE_DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
       run: pytest -v
 
-    - name: Lint
-      run: |
-        black --check .
-        flake8 .
+    - name: Check formatting with Black
+      run: black --check .
+
+    - name: Lint with flake8
+      run: flake8 . --max-line-length=88 --extend-ignore=E203,W503
