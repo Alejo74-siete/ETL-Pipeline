@@ -1,0 +1,11 @@
+# prefect.yaml
+name: production-etl-pipeline
+
+deployments:
+  - name: weekly-production-etl
+    entrypoint: src/pipeline.py:production_etl_flow
+    work_pool:
+      name: default
+    schedule:
+      cron: "0 0 * * 0"  # Every Sunday at midnight
+      timezone: "America/Bogota"

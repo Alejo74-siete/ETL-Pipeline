@@ -26,7 +26,11 @@ ETL-Pipeline/
 │   └── data/                    # Test data
 ├── demo_data/                   # Sample CSV files (watched folder)
 ├── processed_csv/               # Archived processed files
-├── run_pipeline.py              # Main entry point
+├── prefect.yaml                 # ← Simple config
+├── setup.py                     # ← One-time setup
+├── worker.py                    # ← Keep running
+├── run.py                       # ← Manual trigger
+├── run_pipeline.py              # ← Alternative runner
 ├── .env.example                 # Environment variables template
 ├── pyproject.toml               # Project configuration
 └── README.md
@@ -102,6 +106,17 @@ TABLE_NAME=production_clean
 2. Generate an [App Password](https://myaccount.google.com/apppasswords)
 3. Use the App Password in `SMTP_PASSWORD`
 
+## Scheduling with Prefect
+
+### One-Time Setup
+```bash
+# 1. Run setup
+python setup.py
+
+# 2. Start worker (keep this running)
+python worker.py
+```
+
 ## Usage
 
 ### Run the pipeline once
@@ -112,6 +127,17 @@ python run_pipeline.py
 ### Run with custom folders
 ```bash
 python run_pipeline.py --watch-folder my_data --processed-folder my_processed
+```
+## Quick Commands
+```bash
+# First time only
+python setup.py
+
+# Start worker (keep running)
+python worker.py
+
+# Run manually
+python run.py
 ```
 
 ### View help
@@ -133,42 +159,29 @@ python -m pytest tests/ --cov=src --cov-report=html -v
 python -m pytest tests/test_pipeline_basic.py -v
 ```
 
-## Scheduling (Production)
+### Schedule
 
-### Option 1: Prefect Deployment (Recommended)
+The pipeline runs **every Sunday at midnight (Bogotá time)**.
 
-Create a deployment for scheduled runs:
-```bash
-# Create deployment with weekly schedule
-prefect deployment build src/pipeline.py:production_etl_flow \
-  --name "weekly-production-etl" \
-  --cron "0 0 * * 0"  # Every Sunday at midnight
-
-# Apply the deployment
-prefect deployment apply production_etl_flow-deployment.yaml
-
-# Start a worker
-prefect worker start --pool default
+To change the schedule, edit `prefect.yaml`:
+```yaml
+cron: "0 2 * * *"  # Daily at 2 AM
 ```
 
-### Option 2: Cron (Linux/macOS)
+Then redeploy:
 ```bash
-# Edit crontab
-crontab -e
-
-# Add line for weekly run (every Sunday at midnight)
-0 0 * * 0 cd /path/to/ETL-Pipeline && /path/to/.venv/bin/python run_pipeline.py
+prefect deploy --all
 ```
 
-### Option 3: Task Scheduler (Windows)
+### Monitor
 
-1. Open Task Scheduler
-2. Create Basic Task
-3. Set trigger (e.g., weekly on Sunday)
-4. Action: Start a program
-   - Program: `C:\path\to\.venv\Scripts\python.exe`
-   - Arguments: `run_pipeline.py`
-   - Start in: `C:\path\to\ETL-Pipeline`
+- **Local**: http://localhost:4200
+- **Cloud**: https://app.prefect.cloud
+
+### Stop Worker
+```bash
+Press `Ctrl+C` in the worker terminal.
+```
 
 ## Development
 
@@ -205,6 +218,7 @@ flake8 .
    ↓
 8. Send email report
 ```
+
 
 ## Troubleshooting
 
