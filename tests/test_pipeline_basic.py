@@ -6,7 +6,7 @@ from pathlib import Path
 
 def test_flow_runs(tmp_path):
     # copy demo data into a temporary watch folder
-    demo_csv = Path("demo_data/sample_raw_production.csv")
+    demo_csv = Path("tests/data/raw_production_sample.csv")
     watch = tmp_path / "incoming"
     watch.mkdir()
     dest = watch / demo_csv.name
