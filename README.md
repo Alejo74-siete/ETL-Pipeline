@@ -17,3 +17,10 @@ ETL pipeline that:
    python -m venv .venv
    source .venv/bin/activate  # or .venv\Scripts\activate on Windows
    pip install -r requirements.txt
+
+3. Run one pipeline cycle:
+
+    python -c "from src.pipeline import production_etl_flow; production_etl_flow()"
+
+
+4. To schedule weekly, create a Prefect deployment and set a weekly cron

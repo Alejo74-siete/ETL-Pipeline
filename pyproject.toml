@@ -13,7 +13,6 @@ license = "MIT"
 readme = "README.md"
 requires-python = ">=3.10"
 
-# ← Aquí agregas tus dependencias si quieres instalar sin requirements.txt
 dependencies = [
     "pandas",
     "prefect",
@@ -27,4 +26,4 @@ dependencies = [
 line-length = 88
 
 [tool.setuptools.packages.find]
-where = ["src"]  # 🔥 hace que "from src...." funcione siempre
+where = ["src"]

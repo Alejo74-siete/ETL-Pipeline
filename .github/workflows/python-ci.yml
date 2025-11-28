@@ -22,14 +22,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # <-- 🔥 Esto habilita imports tipo `from src.pipeline import ...`
+    # Install project in editable mode
     - name: Install project
       run: pip install -e .
 
     - name: Run tests
       env:
         SUPABASE_DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
-      run: pytest -q
+        PYTHONPATH: src           # ← aquí agregamos src al path
+      run: python -m pytest -q
 
     - name: Lint
       run: |
