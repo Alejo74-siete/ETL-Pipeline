@@ -1,7 +1,8 @@
 # src/pipeline.py
 import os
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, UTC
+from typing import Optional
 
 import pandas as pd
 from dotenv import load_dotenv
@@ -15,10 +16,6 @@ from storage import get_engine
 from utils import ensure_folders, archive_file
 
 load_dotenv()
-
-WATCH_FOLDER = os.getenv("WATCH_FOLDER", "demo_data")
-PROCESSED_FOLDER = os.getenv("PROCESSED_FOLDER", "processed_csv")
-TABLE_NAME = os.getenv("TABLE_NAME", "production_clean")
 
 engine = None
 try:
@@ -53,13 +50,13 @@ def run_clean_qc_task(df: pd.DataFrame) -> str:
     return format_qc_table(qc)
 
 @task
-def upload_to_postgres_task(df: pd.DataFrame):
+def upload_to_postgres_task(df: pd.DataFrame, table_name: str):
     logger = get_run_logger()
     if engine is None:
         logger.warning("No DB engine configured; skipping upload.")
         return 0
-    df.to_sql(TABLE_NAME, engine, if_exists="append", index=False)
-    logger.info(f"Uploaded {len(df)} rows to {TABLE_NAME}")
+    df.to_sql(table_name, engine, if_exists="append", index=False)
+    logger.info(f"Uploaded {len(df)} rows to {table_name}")
     return len(df)
 
 @task
@@ -68,11 +65,29 @@ def archive_task(path: str, processed_folder: str):
     return dest
 
 @flow(name="production_etl_flow")
-def production_etl_flow():
+def production_etl_flow(
+    watch_folder: Optional[str] = None,
+    processed_folder: Optional[str] = None,
+    table_name: Optional[str] = None
+):
+    """
+    ETL flow for production data.
+    
+    Args:
+        watch_folder: Folder to watch for CSV files (defaults to env var or 'demo_data')
+        processed_folder: Folder to archive processed files (defaults to env var or 'processed_csv')
+        table_name: Database table name (defaults to env var or 'production_clean')
+    """
     logger = get_run_logger()
-    ensure_folders([WATCH_FOLDER, PROCESSED_FOLDER])
+    
+    # Use provided values or fall back to env vars
+    watch_folder = watch_folder or os.getenv("WATCH_FOLDER", "demo_data")
+    processed_folder = processed_folder or os.getenv("PROCESSED_FOLDER", "processed_csv")
+    table_name = table_name or os.getenv("TABLE_NAME", "production_clean")
+    
+    ensure_folders([watch_folder, processed_folder])
 
-    files = list_csv_files(WATCH_FOLDER)
+    files = list_csv_files(watch_folder)
     if not files:
         logger.info("No CSVs found.")
         return
@@ -85,12 +100,12 @@ def production_etl_flow():
         df_clean = clean_df_task(df_raw)
         clean_report = run_clean_qc_task(df_clean)
 
-        rows_uploaded = upload_to_postgres_task(df_clean)
+        rows_uploaded = upload_to_postgres_task(df_clean, table_name)
 
-        new_path = archive_task(path, PROCESSED_FOLDER)
+        new_path = archive_task(path, processed_folder)
 
         full_report = (
-            f"File: {Path(path).name}\nProcessed: {datetime.utcnow().isoformat()}Z\n\n"
+            f"File: {Path(path).name}\nProcessed: {datetime.now(UTC).isoformat()}\n\n"
             "===== RAW QC =====\n"
             f"{raw_report}\n\n"
             "===== CLEAN QC =====\n"
