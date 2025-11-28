@@ -20,7 +20,7 @@ dependencies = [
     "psycopg2-binary",
     "numpy",
     "python-dotenv",
-    "production-tools @ git+https://github.com/Alejo74-siete/production-engineering-toolkit.git"
+    "production-engineering-toolkit @ git+https://github.com/Alejo74-siete/production-engineering-toolkit.git"
 ]
 
 [project.optional-dependencies]
