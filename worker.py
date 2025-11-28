@@ -13,7 +13,7 @@ def main():
     print("-" * 50)
 
     try:
-        subprocess.run(["prefect", "worker", "start", "--pool", "default"])
+        subprocess.run(["python", "-m", "prefect", "worker", "start", "--pool", "pool1"])
     except KeyboardInterrupt:
         print("\n👋 Worker stopped")
 

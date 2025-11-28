@@ -33,24 +33,24 @@ def main():
         print("You'll need to:")
         print("1. Sign up at https://app.prefect.cloud")
         print("2. Get your API key")
-        run_command("prefect cloud login", "Prefect Cloud login")
+        run_command("python -m prefect cloud login", "Prefect Cloud login")
     else:
         print("\n🖥️  Using local Prefect server")
         print("Starting server in background...")
         print("UI will be at: http://localhost:4200")
-        subprocess.Popen(["prefect", "server", "start"])
+        subprocess.Popen(["python", "-m", "prefect", "server", "start"])
         import time
 
         time.sleep(5)
 
-    # Create work pool
-    run_command(
-        "prefect work-pool create default --type process",
-        "Creating work pool",
-    )
+    # Work pool creation (compatible with Free Tier)
+        # --- WORK POOL SETUP ---
+    print("\n📦 Using existing Prefect Cloud Work Pool: pool1")
+
+
 
     # Deploy
-    run_command("prefect deploy --all", "Deploying flows")
+    run_command("python -m prefect deploy --pool pool1 --all", "Deploying flows to pool1")
 
     print("\n" + "=" * 50)
     print("✅ Setup complete!")
