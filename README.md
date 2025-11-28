@@ -38,6 +38,12 @@ ETL-Pipeline/
 - PostgreSQL database (e.g., Supabase)
 - Gmail account with App Password for SMTP
 
+## Dependencies
+
+This project depends on the [production-engineering-toolkit](https://github.com/Alejo74-siete/production-engineering-toolkit) for data cleaning and quality checks.
+
+The toolkit is automatically installed from GitHub during setup.
+
 ## Installation
 
 1. **Clone the repository**

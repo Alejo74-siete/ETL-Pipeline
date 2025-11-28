@@ -1,10 +1,12 @@
 
-prefect>=2.10.0
-pandas>=2.0
-sqlalchemy>=1.4
-psycopg2-binary>=2.9
-python-dotenv>=1.0
+pandas
+prefect
+sqlalchemy
+psycopg2-binary
+numpy
+python-dotenv
+production-tools @ git+https://github.com/Alejo74-siete/production-engineering-toolkit.git
 pytest>=7.0
+pytest-cov
 black
 flake8
-production-engineering-toolkit @ git+https://github.com/Alejo74-siete/production-engineering-toolkit.git

@@ -19,7 +19,8 @@ dependencies = [
     "sqlalchemy",
     "psycopg2-binary",
     "numpy",
-    "python-dotenv"
+    "python-dotenv",
+    "production-tools @ git+https://github.com/Alejo74-siete/production-engineering-toolkit.git"
 ]
 
 [project.optional-dependencies]
