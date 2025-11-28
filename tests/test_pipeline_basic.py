@@ -1,7 +1,6 @@
 # tests/test_pipeline_basic.py
 import os
 from pathlib import Path
-import pandas as pd
 
 from pipeline import production_etl_flow
 
@@ -36,12 +35,12 @@ def test_flow_runs(tmp_path):
 
     # Assert: Verify file was archived
     processed_files = list((tmp_path / "processed").glob("*.csv"))
-    assert (
-        len(processed_files) == 1
-    ), f"Expected 1 processed file, found {len(processed_files)}"
+    assert len(processed_files) == 1, (
+        f"Expected 1 processed file, found {len(processed_files)}"
+    )
 
     # Additional assertion: Verify original file no longer in watch folder
     remaining_files = list(watch.glob("*.csv"))
-    assert (
-        len(remaining_files) == 0
-    ), f"Expected 0 files in watch folder, found {len(remaining_files)}"
+    assert len(remaining_files) == 0, (
+        f"Expected 0 files in watch folder, found {len(remaining_files)}"
+    )

@@ -1,4 +1,4 @@
-from .pipeline import *
-from .utils import *
+# src/__init__.py
+"""ETL Production Pipeline package."""
 
-__all__ = ["pipeline", "config", "utils"]
+__version__ = "0.1.0"

@@ -87,9 +87,12 @@ def production_etl_flow(
     ETL flow for production data.
 
     Args:
-        watch_folder: Folder to watch for CSV files (defaults to env var or 'demo_data')
-        processed_folder: Folder to archive processed files (defaults to env var or 'processed_csv')
-        table_name: Database table name (defaults to env var or 'production_clean')
+        watch_folder: Folder to watch for CSV files
+            (defaults to env var or 'demo_data')
+        processed_folder: Folder to archive processed files
+            (defaults to env var or 'processed_csv')
+        table_name: Database table name
+            (defaults to env var or 'production_clean')
     """
     logger = get_run_logger()
 
@@ -119,13 +122,15 @@ def production_etl_flow(
 
         new_path = archive_task(path, processed_folder)
 
+        timestamp = datetime.now(UTC).isoformat()
         full_report = (
-            f"File: {Path(path).name}\nProcessed: {datetime.now(UTC).isoformat()}\n\n"
+            f"File: {Path(path).name}\nProcessed: {timestamp}\n\n"
             "===== RAW QC =====\n"
             f"{raw_report}\n\n"
             "===== CLEAN QC =====\n"
             f"{clean_report}\n\n"
-            f"Archived to: {new_path}\nRows uploaded: {rows_uploaded}\n"
+            f"Archived to: {new_path}\n"
+            f"Rows uploaded: {rows_uploaded}\n"
         )
 
         send_email_report(full_report)
