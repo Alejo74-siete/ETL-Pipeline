@@ -4,9 +4,11 @@ from pathlib import Path
 from typing import List
 import time
 
+
 def ensure_folders(folders: List[str]):
     for f in folders:
         Path(f).mkdir(parents=True, exist_ok=True)
+
 
 def archive_file(path: str, processed_folder: str) -> str:
     src = Path(path)
